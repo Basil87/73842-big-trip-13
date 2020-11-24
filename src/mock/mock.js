@@ -54,9 +54,15 @@ const generateDestination = () => {
     `Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat.`
   ];
 
+  let imagesArr = [];
+
+  for (let i = 0; i < 5; i++) {
+    imagesArr.push(`http://picsum.photos/248/152?r=${Math.random()}`);
+  }
+
   return {
     description: generateRandomItem(descriptions),
-    image: `http://picsum.photos/248/152?r=${Math.random()}`,
+    images: imagesArr,
   };
 };
 
@@ -67,7 +73,9 @@ export const generateTask = () => {
     dueDate,
     routPoint: generateRandomItem(routPoints),
     destination: generateRandomItem(cities),
+    price: getRandomInteger(2, 99),
     options: generatePointOption(),
     destinationInfo: generateDestination(),
+    isFavourite: !!getRandomInteger(),
   };
 };

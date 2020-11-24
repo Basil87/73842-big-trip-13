@@ -11,11 +11,10 @@ const render = (container, template, place) => {
     container.insertAdjacentHTML(place, template);
 };
 
-const info = generateTask();
-console.log(info);
+const POINTS_COUNT = 15;
 
-const POINTS_COUNT = 3;
-  
+const tasks = new Array(POINTS_COUNT).fill().map(generateTask);
+  console.log(tasks);
 const siteTripMainElement = document.querySelector(`.trip-main`);
 const siteTripControlsElement = document.querySelector(`.trip-controls`);
 const siteTripEventsElement = document.querySelector(`.trip-events`);
@@ -29,5 +28,5 @@ render(siteTripEventsListElement, createEditFormTemplate(), `beforeend`);
 render(siteTripEventsListElement, createCreateFormTemplate(), `beforeend`);
 
 for (let i = 0; i < POINTS_COUNT; i++) {
-  render(siteTripEventsListElement, createPointTemplate(), `beforeend`);
+  render(siteTripEventsListElement, createPointTemplate(tasks[i]), `beforeend`);
 }
