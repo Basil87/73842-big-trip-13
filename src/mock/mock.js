@@ -37,8 +37,8 @@ const generatePointOption = () => {
   for (let i = 0; i < getRandomInteger(0, 3); i++) {
     optionPoints.push({
       name: generateRandomItem(optionsName),
-      cost: `+€ ${generateRandomItem(5, 100)}`,
-      isInclude: !!generateRandomItem(),
+      cost: `+€ ${getRandomInteger(5, 100)}`,
+      isInclude: !!getRandomInteger(),
     });
   }
 

@@ -5,10 +5,14 @@ import { createSortTemplate } from "./view/events.js";
 import { createEditFormTemplate } from "./view/edit-form.js";
 import { createCreateFormTemplate } from "./view/create-form.js";
 import { createPointTemplate } from "./view/point.js";
+import { generateTask } from "./mock/mock.js";
 
 const render = (container, template, place) => {
     container.insertAdjacentHTML(place, template);
 };
+
+const info = generateTask();
+console.log(info);
 
 const POINTS_COUNT = 3;
   
