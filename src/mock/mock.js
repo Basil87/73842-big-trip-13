@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-import { getRandomInteger } from "../utils";
+import {getRandomInteger} from "../utils";
 
 const generateDate = () => {
   const isDate = Boolean(getRandomInteger(0, 1));
