@@ -4,11 +4,12 @@ import SiteFiltersView from "./view/filters.js";
 import SiteSortView from "./view/site-sort.js";
 import EditFormView from "./view/edit-form.js";
 import CreatePointView from "./view/create-point.js";
+import NoPointView from "./view/no-point.js";
 import SitePointView from "./view/site-point.js";
 import { generateTask } from "./mock/mock.js";
 import {render, RenderPosition} from "./utils.js";
 
-const POINTS_COUNT = 15;
+const POINTS_COUNT = 0;
 
 const renderTask = (pointListElement, point) => {
   const pointComponent = new SitePointView(point);
@@ -53,8 +54,15 @@ render(siteTripMainElement, new SiteInfoView().getElement(), RenderPosition.AFTE
 render(siteTripControlsElement, new SiteMenuView().getElement(), RenderPosition.AFTERBEGIN);
 render(siteTripControlsElement, new SiteFiltersView().getElement(), RenderPosition.BEFOREEND);
 render(siteTripEventsElement, new SiteSortView().getElement(), RenderPosition.AFTERBEGIN);
-render(siteTripEventsListElement, new CreatePointView().getElement(), RenderPosition.BEFOREEND);
 
 for (let i = 0; i < points.length; i++) {
   renderTask(siteTripEventsListElement, points[i]);
+}
+
+if (points.length === 0) {
+  render(siteTripEventsElement, new NoPointView().getElement(), RenderPosition.BEFOREEND);
+} else {
+  for (let i = 0; i < points.length; i++) {
+    renderTask(siteTripEventsListElement, points[i]);
+  }
 }
