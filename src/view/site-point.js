@@ -1,7 +1,8 @@
-export const createPointTemplate = (point) => {
+import {createElement} from "../utils.js";
+
+const createSitePointTemplate = (point) => {
   const {routPoint, destination, price, isFavourite} = point;
-  return `
-    <li class="trip-events__item">
+  return `<li class="trip-events__item">
       <div class="event">
         <time class="event__date" datetime="2019-03-18">MAR 18</time>
         <div class="event__type">
@@ -39,3 +40,26 @@ export const createPointTemplate = (point) => {
       </div>
     </li>`;
 };
+
+export default class SitePoint {
+  constructor(point) {
+    this._point = point;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createSitePointTemplate(this._point);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
