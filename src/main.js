@@ -3,13 +3,12 @@ import SiteMenuView from "./view/site-menu.js";
 import SiteFiltersView from "./view/filters.js";
 import SiteSortView from "./view/site-sort.js";
 import EditFormView from "./view/edit-form.js";
-import CreatePointView from "./view/create-point.js";
 import NoPointView from "./view/no-point.js";
 import SitePointView from "./view/site-point.js";
 import { generateTask } from "./mock/mock.js";
 import {render, RenderPosition} from "./utils.js";
 
-const POINTS_COUNT = 0;
+const POINTS_COUNT = 15;
 
 const renderTask = (pointListElement, point) => {
   const pointComponent = new SitePointView(point);
@@ -31,13 +30,12 @@ const renderTask = (pointListElement, point) => {
     }
   };
 
-  pointComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+  pointComponent.setEditClickHandler(() => {
     replacePointToForm();
     document.addEventListener(`keydown`, onEscKeyDown);
   });
 
-  pointEditComponent.getElement().querySelector(`form`).addEventListener(`submit`, (evt) => {
-    evt.preventDefault();
+  pointEditComponent.setFormSubmitHandler(() => {
     replaceFormToPoint();
     document.removeEventListener(`keydown`, onEscKeyDown);
   });
