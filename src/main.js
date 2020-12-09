@@ -3,24 +3,23 @@ import SiteMenuView from "./view/site-menu.js";
 import SiteFiltersView from "./view/filters.js";
 import SiteSortView from "./view/site-sort.js";
 import EditFormView from "./view/edit-form.js";
-import CreatePointView from "./view/create-point.js";
 import NoPointView from "./view/no-point.js";
 import SitePointView from "./view/site-point.js";
 import { generateTask } from "./mock/mock.js";
-import {render, RenderPosition} from "./utils.js";
+import {render, RenderPosition, replace, remove} from "./utils/render.js";
 
-const POINTS_COUNT = 0;
+const POINTS_COUNT = 15;
 
 const renderTask = (pointListElement, point) => {
   const pointComponent = new SitePointView(point);
   const pointEditComponent = new EditFormView();
 
   const replacePointToForm = () => {
-    pointListElement.replaceChild(pointEditComponent.getElement(), pointComponent.getElement());
+    replace(pointEditComponent, pointComponent);
   };
 
   const replaceFormToPoint = () => {
-    pointListElement.replaceChild(pointComponent.getElement(), pointEditComponent.getElement());
+    replace(pointComponent, pointEditComponent);
   };
 
   const onEscKeyDown = (evt) => {
@@ -31,18 +30,17 @@ const renderTask = (pointListElement, point) => {
     }
   };
 
-  pointComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+  pointComponent.setEditClickHandler(() => {
     replacePointToForm();
     document.addEventListener(`keydown`, onEscKeyDown);
   });
 
-  pointEditComponent.getElement().querySelector(`form`).addEventListener(`submit`, (evt) => {
-    evt.preventDefault();
+  pointEditComponent.setFormSubmitHandler(() => {
     replaceFormToPoint();
     document.removeEventListener(`keydown`, onEscKeyDown);
   });
 
-  render(pointListElement, pointComponent.getElement(), RenderPosition.BEFOREEND);
+  render(pointListElement, pointComponent, RenderPosition.BEFOREEND);
 };
 
 const points = new Array(POINTS_COUNT).fill().map(generateTask);
@@ -50,17 +48,17 @@ const siteTripMainElement = document.querySelector(`.trip-main`);
 const siteTripControlsElement = document.querySelector(`.trip-controls`);
 const siteTripEventsElement = document.querySelector(`.trip-events`);
 const siteTripEventsListElement = document.querySelector(`.trip-events__list`);
-render(siteTripMainElement, new SiteInfoView().getElement(), RenderPosition.AFTERBEGIN);
-render(siteTripControlsElement, new SiteMenuView().getElement(), RenderPosition.AFTERBEGIN);
-render(siteTripControlsElement, new SiteFiltersView().getElement(), RenderPosition.BEFOREEND);
-render(siteTripEventsElement, new SiteSortView().getElement(), RenderPosition.AFTERBEGIN);
+render(siteTripMainElement, new SiteInfoView(), RenderPosition.AFTERBEGIN);
+render(siteTripControlsElement, new SiteMenuView(), RenderPosition.AFTERBEGIN);
+render(siteTripControlsElement, new SiteFiltersView(), RenderPosition.BEFOREEND);
+render(siteTripEventsElement, new SiteSortView(), RenderPosition.AFTERBEGIN);
 
 for (let i = 0; i < points.length; i++) {
   renderTask(siteTripEventsListElement, points[i]);
 }
 
 if (points.length === 0) {
-  render(siteTripEventsElement, new NoPointView().getElement(), RenderPosition.BEFOREEND);
+  render(siteTripEventsElement, new NoPointView(), RenderPosition.BEFOREEND);
 } else {
   for (let i = 0; i < points.length; i++) {
     renderTask(siteTripEventsListElement, points[i]);
